@@ -1,4 +1,4 @@
-import { invokeTauriCommand } from "./helpers/tauri"
+import { invokeTauriCommand } from './helpers/tauri'
 
 /**
  * This function ensures that path is resolved absolutely before encodeding and converting into a File URL.
@@ -14,10 +14,10 @@ async function pathToFileURL(path: string): Promise<URL> {
     __tauriModule: 'Url',
     message: {
       cmd: 'pathToFileURL',
-      path,
+      path
     }
   })
-  return new URL(url, "file:")
+  return new URL(url, 'file:')
 }
 
-export {pathToFileURL}
+export { pathToFileURL }

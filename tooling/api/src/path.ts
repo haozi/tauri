@@ -553,7 +553,6 @@ async function logDir(): Promise<string> {
   })
 }
 
-
 /**
  * Returns the operating system's default directory for temporary files as a string.
  * @example
@@ -562,7 +561,7 @@ async function logDir(): Promise<string> {
  * const tempdirPath = await tempdir();
  * ```
  */
- async function tempDir(): Promise<string> {
+async function tempDir(): Promise<string> {
   return invokeTauriCommand<string>({
     __tauriModule: 'Path',
     message: {
