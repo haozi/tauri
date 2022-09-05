@@ -3,4 +3,4 @@
 "tauri": minor
 ---
 
-Add `url` module and `url.pathToFileUrl` function
+Added `url` module and `pathToFileUrl()`
