@@ -1,5 +1,5 @@
 ---
-"api.js": "major"
+"api": "major"
 "tauri": "major"
 ---
 
