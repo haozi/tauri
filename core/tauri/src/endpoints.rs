@@ -35,6 +35,8 @@ mod path;
 mod process;
 #[cfg(shell_any)]
 mod shell;
+#[cfg(url_any)]
+mod url;
 mod window;
 
 /// The context passed to the invoke handler.
@@ -95,6 +97,8 @@ enum Module {
   GlobalShortcut(global_shortcut::Cmd),
   #[cfg(clipboard_any)]
   Clipboard(clipboard::Cmd),
+  #[cfg(url_any)]
+  Url(url::Cmd),
 }
 
 impl Module {
@@ -202,6 +206,13 @@ impl Module {
       }),
       #[cfg(clipboard_any)]
       Self::Clipboard(cmd) => resolver.respond_async(async move {
+        cmd
+          .run(context)
+          .and_then(|r| r.json)
+          .map_err(InvokeError::from_anyhow)
+      }),
+      #[cfg(url_any)]
+      Self::Url(cmd) => resolver.respond_async(async move {
         cmd
           .run(context)
           .and_then(|r| r.json)

@@ -1948,6 +1948,33 @@ impl Allowlist for ClipboardAllowlistConfig {
   }
 }
 
+/// Allowlist for the url APIs.
+#[derive(Debug, Default, PartialEq, Eq, Clone, Deserialize, Serialize)]
+#[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct UrlAllowlistConfig {
+  /// Use this flag to enable all url APIs.
+  #[serde(default)]
+  pub all: bool,
+}
+
+impl Allowlist for UrlAllowlistConfig {
+  fn all_features() -> Vec<&'static str> {
+    let allowlist = Self { all: false };
+    let mut features = allowlist.to_features();
+    features.push("url-all");
+    features
+  }
+
+  fn to_features(&self) -> Vec<&'static str> {
+    if self.all {
+      vec!["url-all"]
+    } else {
+      Vec::new()
+    }
+  }
+}
+
 /// Allowlist configuration.
 #[derive(Debug, Default, PartialEq, Eq, Clone, Deserialize, Serialize)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
@@ -1992,6 +2019,9 @@ pub struct AllowlistConfig {
   /// Clipboard APIs allowlist.
   #[serde(default)]
   pub clipboard: ClipboardAllowlistConfig,
+  /// Url APIs allowlist.
+  #[serde(default)]
+  pub url: UrlAllowlistConfig,
 }
 
 impl Allowlist for AllowlistConfig {
@@ -2009,6 +2039,7 @@ impl Allowlist for AllowlistConfig {
     features.extend(ProtocolAllowlistConfig::all_features());
     features.extend(ProcessAllowlistConfig::all_features());
     features.extend(ClipboardAllowlistConfig::all_features());
+    features.extend(UrlAllowlistConfig::all_features());
     features
   }
 
@@ -2029,6 +2060,7 @@ impl Allowlist for AllowlistConfig {
       features.extend(self.protocol.to_features());
       features.extend(self.process.to_features());
       features.extend(self.clipboard.to_features());
+      features.extend(self.url.to_features());
       features
     }
   }

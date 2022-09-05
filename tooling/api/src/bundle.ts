@@ -19,6 +19,7 @@ import * as tauri from './tauri'
 import * as updater from './updater'
 import * as window from './window'
 import * as os from './os'
+import * as url from './url'
 
 /** @ignore */
 const invoke = tauri.invoke
@@ -40,5 +41,6 @@ export {
   updater,
   window,
   os,
+  url,
   invoke
 }

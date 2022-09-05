@@ -88,6 +88,9 @@
             "scope": [],
             "sidecar": false
           },
+          "url": {
+            "all": false
+          },
           "window": {
             "all": false,
             "center": false,
@@ -350,6 +353,9 @@
               "open": false,
               "scope": [],
               "sidecar": false
+            },
+            "url": {
+              "all": false
             },
             "window": {
               "all": false,
@@ -1699,6 +1705,17 @@
               "$ref": "#/definitions/ClipboardAllowlistConfig"
             }
           ]
+        },
+        "url": {
+          "description": "Url APIs allowlist.",
+          "default": {
+            "all": false
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/UrlAllowlistConfig"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -2249,6 +2266,18 @@
         },
         "readText": {
           "description": "Enables the clipboard's `readText` API.",
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "UrlAllowlistConfig": {
+      "description": "Allowlist for the url APIs.",
+      "type": "object",
+      "properties": {
+        "all": {
+          "description": "Use this flag to enable all url APIs.",
           "default": false,
           "type": "boolean"
         }

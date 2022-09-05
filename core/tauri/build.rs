@@ -122,6 +122,7 @@ fn main() {
   }
   alias_module("os", &[], api_all);
   alias_module("path", &[], api_all);
+  alias_module("url", &[], api_all);
 
   alias_module("protocol", &["asset"], api_all);
 

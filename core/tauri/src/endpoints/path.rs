@@ -60,17 +60,7 @@ impl Cmd {
 
   #[module_command_handler(path_all)]
   fn resolve<R: Runtime>(_context: InvokeContext<R>, paths: Vec<String>) -> super::Result<PathBuf> {
-    // Start with current directory then start adding paths from the vector one by one using `PathBuf.push()` which
-    // will ensure that if an absolute path is encountered in the iteration, it will be used as the current full path.
-    //
-    // examples:
-    // 1. `vec!["."]` or `vec![]` will be equal to `std::env::current_dir()`
-    // 2. `vec!["/foo/bar", "/tmp/file", "baz"]` will be equal to `PathBuf::from("/tmp/file/baz")`
-    let mut path = std::env::current_dir()?;
-    for p in paths {
-      path.push(p);
-    }
-    Ok(normalize_path(&path))
+    resolve(paths)
   }
 
   #[module_command_handler(path_all)]
@@ -161,6 +151,20 @@ impl Cmd {
   fn is_absolute<R: Runtime>(_context: InvokeContext<R>, path: String) -> super::Result<bool> {
     Ok(Path::new(&path).is_absolute())
   }
+}
+
+pub(crate) fn resolve(paths: Vec<String>) -> super::Result<PathBuf> {
+  // Start with current directory then start adding paths from the vector one by one using `PathBuf.push()` which
+  // will ensure that if an absolute path is encountered in the iteration, it will be used as the current full path.
+  //
+  // examples:
+  // 1. `vec!["."]` or `vec![]` will be equal to `std::env::current_dir()`
+  // 2. `vec!["/foo/bar", "/tmp/file", "baz"]` will be equal to `PathBuf::from("/tmp/file/baz")`
+  let mut path = std::env::current_dir()?;
+  for p in paths {
+    path.push(p);
+  }
+  Ok(normalize_path(&path))
 }
 
 /// Normalize a path, removing things like `.` and `..`, this snippet is taken from cargo's paths util.
